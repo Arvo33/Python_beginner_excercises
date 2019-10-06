@@ -1,3 +1,4 @@
+# Ex 8
 # Make a two-player Rock-Paper-Scissors game. (Hint: Ask for player plays (using input), compare them, print out a
 # message of congratulations to the winner, and ask if the players want to start a new game)
 # Remember the rules:
@@ -23,7 +24,13 @@ class Player:
         if self.computer:
             return choice(['s', 'r', 'p'])
         else:
-            return input('What is your move?\n(insert: s for scissors, r for rock or p for paper)\n')
+            while True:
+                user_input = input('What is your move?\n(insert: s for scissors, r for rock or p for paper)\n').lower()
+                if user_input not in ['s', 'r', 'p']:
+                    print('Inserted unapropriate value. Try again.')
+                    continue
+                else:
+                    return user_input
 
 
 class Game:
@@ -36,7 +43,12 @@ class Game:
     def gameplay(self):
         while True:
             self.moves()
-            self.result()
+            winner = self.result()
+            if winner is None:
+                self.moves_comparrison_list.clear()
+                print('Draw!\n')
+                continue
+            print('\n{} wins! Confratulations!'.format(winner))
             self.moves_comparrison_list.clear()
             if not self.quit_check():
                 break
@@ -44,24 +56,23 @@ class Game:
 
     def moves(self):
         for player in self.players:
-            result = player.play().lower() # poprawić
+            result = player.play()
             self.moves_comparrison_list.append(self.moves_dict[result][0])
             print('{}: {}'.format(player.name, self.moves_dict[result][1]))
 
-        if self.moves_comparrison_list[0] == self.moves_comparrison_list[1]:
-            pass
-
     def result(self):
-        winner = ''
-        if sum(self.moves_comparrison_list) == 4:
-            winner = self.players[self.moves_comparrison_list.index(3)].name
+
+        if self.moves_comparrison_list[0] == self.moves_comparrison_list[1]:
+            return None
+        elif sum(self.moves_comparrison_list) == 4:
+            return self.players[self.moves_comparrison_list.index(1)].name
         else:
-            winner = self.players[self.moves_comparrison_list.index(max(self.moves_comparrison_list))].name
-        print('{} wins! Confratulations!'.format(winner))
+            return self.players[self.moves_comparrison_list.index(max(self.moves_comparrison_list))].name
+
 
     def quit_check(self):
         while True:
-            check = input('Do you want to continue?\n(y = yes, n = no)\n').lower()
+            check = input('\nDo you want to continue?\n(y = yes, n = no)\n').lower()
             if check != 'y' and check != 'n':
                 print('Inserted unapropriate value. Try again.')
                 continue
