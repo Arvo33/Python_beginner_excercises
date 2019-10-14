@@ -46,7 +46,6 @@ class Game:
 
 class Player:
 
-
     def guess(self):
         while True:
             user_input = input('Choose your number from 1 to 9 or type "exit" to quit\n: ').lower()

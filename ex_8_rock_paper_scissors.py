@@ -8,35 +8,45 @@
 #
 # EDIT: I want one of the players to be a computer
 
+from abc import ABC, abstractmethod
 from random import choice
 
 
-class Player:
+class Player(ABC):
 
-    def __init__(self, computer=False):
-        self.computer = computer
-        if self.computer:
-            self.name = 'Computer'
-        else:
-            self.name = input('Enter you name: ')
+    @abstractmethod
+    def play(self):
+        pass
+
+
+class Computer(Player):
+
+    def __init__(self):
+        self.name = 'Computer'
 
     def play(self):
-        if self.computer:
-            return choice(['s', 'r', 'p'])
-        else:
-            while True:
-                user_input = input('What is your move?\n(insert: s for scissors, r for rock or p for paper)\n').lower()
-                if user_input not in ['s', 'r', 'p']:
-                    print('Inserted unapropriate value. Try again.')
-                    continue
-                else:
-                    return user_input
+        return choice(['s', 'r', 'p'])
+
+
+class Person(Player):
+
+    def __init__(self):
+        self.name = input('Enter you name: ')
+
+    def play(self):
+        while True:
+            user_input = input('What is your move?\n(insert: s for scissors, r for rock or p for paper)\n').lower()
+            if user_input not in ['s', 'r', 'p']:
+                print('Inserted unapropriate value. Try again.')
+                continue
+            else:
+                return user_input
 
 
 class Game:
 
     def __init__(self, players_list):
-        self.moves_dict = {'s': [1,'Scissors'], 'r': [2, 'Rock'], 'p': [3, 'Paper']}
+        self.moves_dict = {'s': [1, 'Scissors'], 'r': [2, 'Rock'], 'p': [3, 'Paper']}
         self.players = list(players_list)
         self.moves_comparrison_list = []
 
@@ -53,7 +63,6 @@ class Game:
             if not self.quit_check():
                 break
 
-
     def moves(self):
         for player in self.players:
             result = player.play()
@@ -69,7 +78,6 @@ class Game:
         else:
             return self.players[self.moves_comparrison_list.index(max(self.moves_comparrison_list))].name
 
-
     def quit_check(self):
         while True:
             check = input('\nDo you want to continue?\n(y = yes, n = no)\n').lower()
@@ -83,7 +91,7 @@ class Game:
 
 
 if __name__ == '__main__':
-    p1 = Player()
-    p2 = Player(True)
+    p1 = Person()
+    p2 = Computer()
     game = Game([p1, p2])
     game.gameplay()
