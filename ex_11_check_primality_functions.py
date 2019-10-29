@@ -1,9 +1,9 @@
 # Ask the user for a number and determine whether the number is prime or not.
 
 
-def get_number():
+def get_number(message: str = 'Insert number:') -> int:
     try:
-        return int(input('Insert number:\n'))
+        return int(input(f'{message}\n'))
     except ValueError:
         print('Invalid input. Please try again.')
         get_number()
