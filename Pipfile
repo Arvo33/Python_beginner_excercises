@@ -7,6 +7,7 @@ verify_ssl = true
 
 [packages]
 parameterized = "*"
+nltk = "*"
 
 [requires]
 python_version = "3.7"
