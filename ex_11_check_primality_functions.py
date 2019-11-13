@@ -2,11 +2,12 @@
 
 
 def get_number(message: str = 'Insert number:') -> int:
-    try:
-        return int(input(f'{message}\n'))
-    except ValueError:
-        print('Invalid input. Please try again.')
-        get_number()
+    while True:
+        try:
+            return int(input(f'{message}\n'))
+        except ValueError:
+            print('Invalid input. Please try again.')
+            # get_number()
 
 
 def is_prime(number: int) -> bool:
